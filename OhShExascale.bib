@@ -2,12 +2,108 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for kmorel at 2013-01-09 11:29:08 -0700 
+%% Created for kmorel at 2013-01-09 15:20:57 -0700 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@techreport{ParaViewTutorial,
+	Annote = {The ParaView tutorial.},
+	Author = {Kenneth Moreland},
+	Date-Added = {2013-01-09 15:15:38 -0700},
+	Date-Modified = {2013-01-09 15:18:10 -0700},
+	Institution = {Sandia National Laboratories},
+	Number = {SAND 2011-8896P},
+	Title = {The {ParaView} Tutorial, Version 3.12},
+	Year = {2011}}
+
+@article{Moreland2012:TVCG,
+	Abstract = {The most common abstraction used by visualization libraries and applications today is what is known as the visualization pipeline. The visualization pipeline provides a mechanism to encapsulate algorithms and then couple them together in a variety of ways. The visualization pipeline has been in existence for over twenty years, and over this time many variations and improvements have been proposed. This paper provides a literature review of the most prevalent features of visualization pipelines and some of the most recent research directions.},
+	Annote = {A survey of research pertaining to visualization pipelines, the libraries that implement them, and the tools that use them.},
+	Author = {Kenneth Moreland},
+	Date-Added = {2013-01-09 15:12:24 -0700},
+	Date-Modified = {2013-01-09 15:12:24 -0700},
+	Journal = {IEEE Transactions on Visualization and Computer Graphics},
+	Note = {(preprint)},
+	Title = {A Survey of Visualization Pipelines},
+	Year = {2012}}
+
+@techreport{DARPAExascaleStudy,
+	Annote = {An exascale workshop study.  I've specifically used this one to pull out the following quote to demonstrate the limitation of memory that we have at the exascale:
+
+  The concurrency challenge is manifest in the need for software to expose
+  at least 1000$\times$ more concurrency in applications for Extreme Scale
+  systems, relative to current systems. It is further exacerbated by the
+  projected memory-computation imbalances in Extreme Scale systems, with
+  Bytes/Ops ratios that may drop to values as low as $10^{-2}$ where Bytes
+  and Ops represent the main memory and computation capacities of the
+  system respectively. These ratios will result in 100$\times$ reductions
+  in memory per core relative to Petascale systems, with accompanying
+  reductions in memory bandwidth per core.  Thus, a significant fraction of
+  software concurrency in Extreme Scale systems must come from exploiting
+  more parallelism within the computation performed on a single datum.
+},
+	Author = {Mark Richards and others},
+	Date-Added = {2013-01-09 15:11:05 -0700},
+	Date-Modified = {2013-01-09 15:11:05 -0700},
+	Institution = {DARPA Information Processing Techniques Office (IPTO)},
+	Month = {September},
+	Title = {ExaScale Software Study: Software Challenges in Extreme Scale Systems},
+	Year = {2009}}
+
+@article{Gustafson1988,
+	Annote = {A paper by Gustafson describing how efficient parallel processing can be achieved by scalling up the size of the problem with the amount of parallelism.  This is in contrast to Amdahl's law, which limits the amount of speedup that can be achieved.  Provides the equation that is now known as Gustafson's law (or Gustafson-Barsis's law).},
+	Author = {John L. Gustafson},
+	Date-Added = {2013-01-09 14:41:18 -0700},
+	Date-Modified = {2013-01-09 15:20:57 -0700},
+	Doi = {10.1145/42411.42415},
+	Journal = {Communications of the ACM},
+	Month = {May},
+	Note = {{DOI}~10.1145/42411.42415},
+	Number = {5},
+	Pages = {532--533},
+	Title = {Reevaluating {Amdahl's} Law},
+	Volume = {31},
+	Year = {1988},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1145/42411.42415}}
+
+@inproceedings{Amdahl1967,
+	Annote = {Amdahl's original (?) short paper describing the limitations of amount of increased speedup you get with parallel computing.  I note that the equation now associated with Amdahl's law is not given here.},
+	Author = {Gene M. Amdahl},
+	Booktitle = {Proceedings of the Spring Joint Computer Conference (AFIPS '67)},
+	Date-Added = {2013-01-09 14:33:18 -0700},
+	Date-Modified = {2013-01-09 14:33:18 -0700},
+	Doi = {10.1145/1465482.1465560},
+	Month = {April},
+	Note = {{DOI}~10.1145/1465482.1465560},
+	Pages = {483--485},
+	Title = {Validity of the single processor approach to achieving large scale computing capabilities},
+	Year = {1967},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1145/1465482.1465560}}
+
+@book{Quinn2004,
+	Annote = {A book containing mostly practical algorithms and their implementations using MPI and OpenMP.  The book also contains what I think is a nice review of some of the basic theory of parallel computing including Amdahl's law, Gustafson-Barsis's law, the Karp-Flatt metric, and the Isoefficiency metric.},
+	Author = {Michael J. Quinn},
+	Date-Added = {2013-01-09 14:25:42 -0700},
+	Date-Modified = {2013-01-09 14:25:42 -0700},
+	Note = {{ISBN}~978-0-07-282256-4},
+	Publisher = {McGraw-Hill},
+	Title = {Parallel Programming in C with MPI and OpenMP},
+	Year = {2004}}
+
+@book{MPI,
+	Annote = {My reference manual for MPI.  I've been using this as a cite for MPI.},
+	Author = {Mark Snir and Steve Otto and Steven Huss-Lederman and David Walker and Jack Dongarra},
+	Date-Added = {2013-01-09 13:55:07 -0700},
+	Date-Modified = {2013-01-09 13:55:07 -0700},
+	Edition = {second},
+	Note = {{ISBN} 0-262-69215-5},
+	Publisher = {MIT Press},
+	Title = {{MPI}: The Complete Reference},
+	Volume = {1, The {MPI} Core},
+	Year = {1998}}
 
 @misc{ScientificDiscoveryExascale2011,
 	Annote = {Workshop report on upcoming visualization challenges at exascale.  Big challenges include overcoming lower relative I/O rates through various more advanced I/O technologies such as in situ computations.  Also includes discussion on upcoming algorithmic challenges.},
@@ -20,15 +116,6 @@
 	Url = {http://www.sandia.gov/~kmorel/documents/Exascale-ASCR-Analysis.pdf},
 	Year = {2011},
 	Bdsk-Url-1 = {http://www.sandia.gov/~kmorel/documents/Exascale-ASCR-Analysis.pdf}}
-
-@techreport{DARPAExascaleStudy,
-	Author = {Mark Richards and others},
-	Date-Added = {2013-01-09 11:28:26 -0700},
-	Date-Modified = {2013-01-09 11:28:26 -0700},
-	Institution = {DARPA Information Processing Techniques Office (IPTO)},
-	Month = {September},
-	Title = {ExaScale Software Study: Software Challenges in Extreme Scale Systems},
-	Year = {2009}}
 
 @techreport{ExascaleRoadMap,
 	Annote = {A workshop report prediciting the nature of an Exascale machine.  A reasonable source to pull some numbers comparing petascale to exascale machines (a la slide of doom).  See [Moreland2011:LDAV] for a usage.},

@@ -82,6 +82,9 @@
 
 \newcommand{\etal}{et al.}
 
+\newcommand{\insitu}{\it in situ\xspace}
+\newcommand{\intransit}{\it in transit\xspace}
+
 \newcommand*{\keyterm}[1]{\emph{#1}}
 
 \newcommand{\fix}[1]{{\color{red}\textsc{[#1]}}}
@@ -173,8 +176,8 @@ reason for this budget is very pragmatic.  The operating cost of a
 supercomputer is roughly \$1 million per megawatt per year.  As such, DOE
 determines that it cannot afford more than \$20 million per year to operate
 a single supercomputer.  Thus, the challenge of exascale computing is
-getting about 3 orders of magnitude improvement in computation rate using
-not much more power than we do today.
+getting about three orders of magnitude improvement in computation rate
+using not much more power than we do today.
 
 \begin{table*}[htdp]
   \centering
@@ -207,8 +210,173 @@ we use our applications.  In particular, we will note the contrast between
 the factor change of related system parameters and discuss the
 implications.  This paper provides an informal discussion of these issues.
 For a more formal discussion, consult the report from the DOE ASCR 2011
-Workshop on Exascale Data Management, ANalysis, and
+Workshop on Exascale Data Management, Analysis, and
 Visualization\lcite{ScientificDiscoveryExascale2011}.
+
+\section{Concurrency}
+\label{sec:Concurrency}
+
+\noindent
+Let us first compare the amount of memory expected on our exascale machine
+with the amount of concurrency programs will have to exhibit at scale.  The
+system memory of the machine will grow by a factor of about a hundred,
+which is an order of magnitude lower than than the growth of the
+computational power.
+
+The reason for this low growth of memory is that memory tends to be power
+hungry.  Thus, we simply cannot afford to grow the amount of memory in the
+system at a rate equal to the computation.  Furthermore, additional memory
+does not directly contribute to the computational rate of the system.  Of
+course, by that logic we could create an even cheaper exascale machine by
+not adding or perhaps even removing some system memory.  However, doing so
+would render the machine useless, and neither DOE nor any other
+organization is willing to spend millions of dollars on a useless machine.
+So, the amount of memory to be added to an exascale machine is an
+engineering decision to maximize the utility of the system while keeping
+everything in budget.
+
+In contrast, the total concurrency required by the system will grow by up
+to five orders of magnitude.  The reason for this staggering increase in
+concurrency is twofold.  First, although Moore's law still holds for the
+scaling of the number of transistors (so far), this scaling is no longer
+contributing to the faster operation of processing
+cores\lcite{ExascaleRoadMap}.  Instead, increased computing power is
+achieved by adding more cores to a processor.  Given this fixed calculation
+rate per core, we can predict that we will need roughly a million cores to
+sustain a rate of $10^{18}$ floating point operations per second.
+
+Of course, the change in Moore's law only accounts for an increase of three
+orders of magnitude.  The second factor that is increasing total
+concurrency is the interface between the processor and the memory holding
+the data it operates on.  Because the latency to off-chip memory is not
+expected to improve substantially, practical applications will likely have
+to run 10 to 100 threads per core (depending on the type of processor) to
+hide this latency by swapping threads during memory
+fetches\lcite{ExascaleArchitecturesReport}.  Consequently, a program could
+require up to \emph{100 billion concurrent threads} to maintain an
+exaFLOP.
+
+\subsection{Scalability of Current Applications}
+
+\noindent
+This combination of low memory growth and high concurrency growth
+represents serious scaling issues for our parallel high-performance
+computation code.  Our current production scientific-visualization
+applications use a distributed memory model with a message passing
+interface, embodied in the use of MPI\lcite{MPI}, to implement concurrent
+processing and communication.  Although this simple but effective model has
+served well to the petascale era of supercomputing, it fails to capture
+important emerging features in high-performance computing, and it is thus
+doomed to break down unless major restructuring efforts are enacted.
+
+To understand why our parallel production applications will fail to scale,
+let us consider a simple and artificial but realistic and representitive
+example of performing scientific visualization on a regular grid of cells.
+For a capability run on the petascale machine represented in
+Table~\ref{table:PetascaleVsExascale} we could expect a grid of 1 trillion
+cells\lcite{Childs2010}.  On the exascale machine, having about 100 times
+more memory, we could expect a grid of 100 trillion cells.
+
+Our current production scientific-visualization applications use MPI to
+represent all concurrency, and MPI uses operating system processes to
+represent concurrent execution.  Thus, to run on the entirety of a
+petascale machine, an application would need about 200 thousand processes
+whereas an exascale machine could require up to 100 billion processes.  One
+problem with an operating system process is that it is a heavy weight
+object.  Associated with each one is an entire program state including a
+copy of the machine instructions to be executed.  A library of
+general-purpose scientific visualization algorithms could be expected to
+run at least 20~MB, and these 20~MB would have to be replicated on each
+process.  Replicating this data 200 thousand times on the petascale machine
+yields 4~TB, which is a reasonable at less than 2\% of the overall memory
+in the system.  However, replicating this data 100 billion times on the
+exascale machine yields 2~EB, well over the amount of memory available on
+the entire machine (and, incidently, all of its storage).  Thus, we cannot
+even start our application on the exascale machine, and that is before we
+even load any data.
+
+But let us say we get around that problem, which is an active area of
+research\fix{Cite exascale project.}.  Another problem that we run into is
+the breakdown of Gustafson's law.  Scientific visualization code, as well
+as most modern high-performance parallel code, gets around the limits of
+parallel efficiency proposed by Amdahl\lcite{Amdahl1967} by scaling up the
+problem size along with the concurrency\lcite{Gustafson1988}.  By
+considering a scaled speedup, we can allow the problem size to be an
+increasing functionof the number of processes\lcite{Quinn2004}.  However,
+limiting the growth of memory limits the scale to which we can grow
+problems.
+
+Back to our example, assuming that our visualization algorithm uses data
+parallelism, which most modern visualization algorithms
+do\lcite{Moreland2012:TVCG}, our 1 trillion cell petascale problem will be
+broken into partitions of 5 million cells for each thread.  Experience
+shows 5 million cells per thread to be an efficient amount to drive a
+visualization pipeline thread\lcite{ParaViewTutorial}.  In contrast, the
+equivalent exascale mesh of 100 trillion cells would be divided into
+partitions of 1000 cells, a ridiculously small and inefficient amount of
+the overhead of a parallel program.
+
+But even ignoring this problem, others abound.  Consider the issue of
+adding ghost cells (or sometimes called halo cells) to our partitions.
+Ghost cells are critical to the operation of our current parallel
+scientific visualization algorithms; they limit the communication required
+in the algorithms to make the parallel overhead manageable.  Assuming our
+petascale problem is broken into 5 million cell partitions that are roughly
+$171^3$ blocks, each block would require $6 \times 171^2$ or about 175
+thousand ghost cells.  All total, this is 35 billion ghost cells, which
+amounts to about 3.5\% of the original data size.  In contrast, our
+exascale mesh would be broken into 1000 cell partitions of $10^3$ blocks,
+and each block would require $6 \times 10^2 = 600$ ghost cells.  All total,
+this is 60 trillion ghost cells, which amounts to about 60\% of the
+original data size.  Growing the memory overhead by 60\% is simply not
+feasible in most serious applications.
+
+\subsection{Exascale Programming Challenges}
+
+\noindent
+
+\subsection{Emerging Frameworks for Scientific Discovery at Exascale}
+
+\noindent
+
+\section{Recording Results}
+\label{sec:RecordingResults}
+
+\noindent
+
+\subsection{Relative Data Bandwidth}
+
+\noindent
+
+\subsection{Gamut of Coinciding Visualization Solutions}
+
+\noindent
+
+\section{Other Exascale Challenges}
+\label{sec:Other}
+
+\noindent
+
+\subsection{Resilience}
+
+\noindent
+
+\subsection{Compression and Extraction}
+
+\noindent
+
+\subsection{Provenance}
+
+\noindent
+
+\subsection{Uncertainty Quantification}
+
+\noindent
+
+\section{Final Remarks}
+\label{sec:Conclusion}
+
+\noindent
 
 \section*{Acknowledgments}
 
