@@ -99,11 +99,29 @@
 \title{Oh, \$\#*@! Exascale! The Effect of Emerging Architectures on
   Scientific Discovery}
 
+% I hacked up IEEEtran.cls to support a teaser for conference papers.
+\newcommand{\teaser}{
+  \centering
+  \includegraphics[width=.3\linewidth]{images/Rocket1}
+  \includegraphics[width=.3\linewidth]{images/Rocket2}
+  \includegraphics[width=.3\linewidth]{images/Rocket3}
+  \caption{This 1988 rocket-sled test has nothing to do with exascale
+    computing per se, but it makes for an effective metaphor for the
+    ``brick wall'' we anticipate our high-performance computing code to
+    collide with.}
+  \label{fig:teaser}
+}
+
 \begin{document}
 
 \sloppy
 
 \maketitle
+
+%% \twocolumn[\begin{@twocolumnfalse}
+%%   %% \includegraphics[width=4in]{images/Rocket1}
+%%   \centerline{\Large\bfseries This is my manually set ``wide'' title}
+%% \end{@twocolumnfalse}]
 
 \begin{abstract}
   This is the abstract.
@@ -113,6 +131,8 @@
 \label{sec:Introduction}
 
 This is the introduction.
+
+Figure~\ref{fig:teaser}.
 
 \section*{Acknowledgments}
 

@@ -3471,7 +3471,12 @@ between column types.}%
    % V1.6 handle \author differently if in conference mode
    \ifCLASSOPTIONconference%
       {\@IEEEspecialpapernotice\mbox{}\vskip\@IEEEauthorblockconfadjspace%
-       \mbox{}\hfill\begin{@IEEEauthorhalign}\@author\end{@IEEEauthorhalign}\hfill\mbox{}\par}\relax
+       \mbox{}\hfill\begin{@IEEEauthorhalign}\@author\end{@IEEEauthorhalign}\hfill\mbox{}\par%
+       \vspace{1.0em}%
+       \begingroup%
+       \def\@captype{figure}%
+       \teaser%
+      \endgroup\par}\relax
    \else% peerreviewca, peerreview or journal
       \ifCLASSOPTIONpeerreviewca
          % peerreviewca handles author names just like conference mode
