@@ -5,6 +5,6 @@ project(OhShExascale NONE)
 include(UseLATEX.cmake)
 
 add_latex_document(OhShExascale.tex
-#  BIBFILES OhShExascale.bib
+  BIBFILES OhShExascale.bib
   IMAGE_DIRS images
   )

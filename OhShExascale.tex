@@ -51,6 +51,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{varioref}
 \usepackage{fancyvrb}
@@ -118,11 +119,6 @@
 
 \maketitle
 
-%% \twocolumn[\begin{@twocolumnfalse}
-%%   %% \includegraphics[width=4in]{images/Rocket1}
-%%   \centerline{\Large\bfseries This is my manually set ``wide'' title}
-%% \end{@twocolumnfalse}]
-
 \begin{abstract}
 The predictions for exascale computing are dire.  Although we have
 benefited from a consistent supercomputer architecture design, even across
@@ -139,9 +135,80 @@ success at exascale computing.
 \section{Introduction}
 \label{sec:Introduction}
 
-This is the introduction.
+\noindent
+Thanks to recent advances in parallel visualization algorithms and
+frameworks, we currently benefit from production large-scale
+scientific-visualization applications such as ParaView\lcite{ParaView} and
+VisIt\lcite{VisIt}, which are shown to be very scalable up to our current
+generation of petascale computers\lcite{Childs2010}.  Although the
+development of these tools comes from the successful scaling of techniques
+originally pioneered over ten years ago\lcite{Ahrens2000,Wylie2001}, recent
+trends indicate that future high-performance computers will have different
+hardware structure and programming models to which software must adapt.
 
-Figure~\ref{fig:teaser}.
+These grave predictions come from multiple
+workshops\lcite{ExascaleArchitecturesReport,ExascaleRoadMap,DARPAExascaleStudy}
+where experts convened to discuss the roadmap to building exascale
+computers (that is, computers capabile of performing $10^{18}$ floating
+point operations per second).  Table~\ref{table:PetascaleVsExascale} gives
+a summary comparison between an existing petaFLOP computer and the expected
+system performance of a future computer capable of an exaFLOP.  Note that
+there is uncertainty in what type of computer architecture will be used to
+achieve and exaFLOP (and it is possible different architectures may be used
+in different instances).  To compensate for this uncertainty, experts use
+the term of design ``swim lanes'' that capture these different approaches.
+Two likely swim lanes are captured in
+Table~\ref{table:PetascaleVsExascale}.
+
+If all the components of supercomputers were to be scaled uniformly, then
+the ``Factor Change'' column in Table~\ref{table:PetascaleVsExascale} would
+have uniform values.  However, the factor of change varies wildly from very
+small changes to five orders of magnitude.  The main cause for most of this
+variability comes from comprimises made to achieve the desired system peak
+(the first column of Table~\ref{table:PetascaleVsExascale}) in the
+constraints of a limited power budget (the second column of
+Table~\ref{table:PetascaleVsExascale}).  DOE has established a power budget
+for the exascale machine at 20~MW\lcite{ExascaleArchitecturesReport}.  The
+reason for this budget is very pragmatic.  The operating cost of a
+supercomputer is roughly \$1 million per megawatt per year.  As such, DOE
+determines that it cannot afford more than \$20 million per year to operate
+a single supercomputer.  Thus, the challenge of exascale computing is
+getting about 3 orders of magnitude improvement in computation rate using
+not much more power than we do today.
+
+\begin{table*}[htdp]
+  \centering
+  \caption{Comparison of a petascale supercomputer to an expected exascale
+    supercomputer\lcite{ScientificDiscoveryExascale2011}.}
+  \label{table:PetascaleVsExascale}
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    & & \multicolumn{2}{c}{Exascale (Prediction)} & \\
+    System Parameter & Petascale & Swim Lane 1 & Swim Lane 2 & Factor Change \\
+    \midrule
+    System Peak & 2 Pf/s & \multicolumn{2}{c}{1 Ef/s} & 500 \\
+    Power & 6 MW & \multicolumn{2}{c}{$\le$20 MW} & 3\\
+    System Memory & 0.3 PB & \multicolumn{2}{c}{32--64 PB} & 100--200 \\ % San Diego report says 50PB
+    Total Concurrency & 225K & 1B$\times$10 & 1B$\times$100 & 40,000--400,000 \\
+    Node Performance & 125 GF & 1 TF & 10 TF & 8--80\\
+    %Node Memory BW & 25 GB/s & 400 GB/s & 4 TB/s & 16 \\
+    Node Core Count & 12 & 1,000 & 10,000 & 83--830 \\
+    Network BW & 1.5 GB/s & 100 GB/s & 1000 GB/s & 66--660 \\
+    System Size (nodes) & 18700 & 1,000,000 & 100,000 & 50--500 \\
+    I/O Capacity & 15 PB & \multicolumn{2}{c}{300--1000 PB} & 20--67\\
+    I/O BW & 0.2 TB/s & \multicolumn{2}{c}{20--60 TB/s} & 10--30 \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+Using the predictions in Table~\ref{table:PetascaleVsExascale}, this paper
+provides an overview of the changes required to our scalable code and how
+we use our applications.  In particular, we will note the contrast between
+the factor change of related system parameters and discuss the
+implications.  This paper provides an informal discussion of these issues.
+For a more formal discussion, consult the report from the DOE ASCR 2011
+Workshop on Exascale Data Management, ANalysis, and
+Visualization\lcite{ScientificDiscoveryExascale2011}.
 
 \section*{Acknowledgments}
 
@@ -178,7 +245,7 @@ Administration.
 \noindent
 {\small SAND 2013-XXXX}
 
-%% \bibliographystyle{IEEEtranS}
-%% \bibliography{OhShExascale}
+\bibliographystyle{IEEEtranS}
+\bibliography{OhShExascale}
 
 \end{document}
