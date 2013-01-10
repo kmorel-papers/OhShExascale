@@ -626,22 +626,91 @@ interactive visualization to a user without blocking the large simulation.
 \label{sec:Other}
 
 \noindent
+So far we have considered some of the most urgent problems facing us for
+exascale computing and the ones we are directly working on at Sandia
+National Laboratories.  There are, however, many more challenges that face
+us as we approach exascale, and this section gives a brief overview of some
+other important issues.
 
 \subsection{Resilience}
 
 \noindent
+Although our production scientific-visualization tools are designed to
+provide reliable operation, resilience has not been the primary concern for
+their development.  Should a problem occur during visualization, such as a
+hardware failure, that causes a catastrophic failure, it is realitively
+little consequence to simply restarting the visualization and reloading the
+data when running in off-line mode.  However things can change dramatically
+for exascale.  When running \insitu at the exascale, it is vital that the
+visualization components be robust.  It is not looked upon favorably when
+visualization brings down a large simulation job.
+
+At exascale we expect failures to occur more frequently as well.  The
+exascale computer comprises significantly more hardware componts.  More
+components means a greater chance that one will fail, which means that the
+mean time to failure goes down.  When the mean time to failure drops low
+enough, even independent visualization jobs need to consider resiliency.
+
+In addition to more likely catastrophic failures, high-performance
+computing may need to be adept at handling soft errors, which are errors
+such as small data corruption that are never detected.  Soft errors are
+more likely at the exascale not only due to the greater number of
+components but also because some error detecting hardware may be removed in
+an effort to reduce the power consumed.
+
+Ultimately, the operation of an exascale computer may be less deterministic
+than what we currently expect of a petascale computer.  Not only must our
+code be able to operate under uncertainty, but must be able to characterize
+the uncertainty in the data that it produces.
 
 \subsection{Compression and Extraction}
 
 \noindent
+As described in Section~\ref{sec:RecordingResults}, less results data can
+be captured from a simulation.  Ultimately, this means that we must make
+better use of the bandwidth that we do have available by providing more
+information with less data.  One straightforward way to do this is to
+compress the data.  Data compression has a long and fruitful history, but
+scientific analysis and visualization provides several new challenges.
+Scientific data tends to be of floating point data with well defined but
+possibly complicated and irregular structure, which is different from most
+other fields.  Furthermore, we could benefit from both lossless and lossy
+compression, but for lossy compression it is very important to be able to
+both constrain and characterize the inaccuracy introduced by lossy
+compression.
+
+Another apprpoach to reducing the amount of data returned is by extracting
+exactly the information desired.  One direct method of extraction is to
+perform a feature characterization and write out properties of features.
+The challenge of this approach is that feature characterization is very
+specific to a particular scientific domain and analysis.  Furthermore,
+feature are often difficult to specify let alone extract, and often feature
+identification is an expensive operation.
 
 \subsection{Provenance}
 
 \noindent
+Provenance provides a record of what operations and parameters produced a
+given set of data.  Recent works of provenance in scientific visualization
+systems record the set of parameters used to build a visualization and the
+history of exploration to get there\lcite{JankunKelly2002,VisTrails}.
+
+With the added focus of \insitu visualization at the exascale, provenance
+takes on a new and important role.  Because data is transient, it becomes
+impossible to revisit old data and verify old visualization results.  To
+maintain confidence in the data analysis without the original data, it is
+important to capture what methods were used to draw any set of
+conclusions.
 
 \subsection{Uncertainty Quantification}
 
 \noindent
+As the computational power of supercomputers increases, we expect greater
+efforts to be made in tracking uncertainty and quantifying the uncertainty
+in simulations.  However, this uncertainty quantification is of little use
+if the analysis can provide no insight into the envelope of possible
+values.  Visualization systems need to incoporate uncertainty in their
+visual representation of data\lcite{Potter2012}.
 
 \section{Final Remarks}
 \label{sec:Conclusion}
