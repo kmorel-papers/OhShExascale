@@ -2,12 +2,141 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for kmorel at 2013-01-09 15:20:57 -0700 
+%% Created for kmorel at 2013-01-09 17:08:17 -0700 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@inproceedings{Sewell2012,
+	Author = {Christopher Sewell and Jeremy Meredith and Kenneth Moreland and Tom Peterka and Dave DeMarle and Li-ta Lo and James Ahrens and Robert Maynard and Berk Geveci},
+	Booktitle = {Proceedings of the Ultrascale Visualization Workshop},
+	Date-Added = {2013-01-09 17:08:13 -0700},
+	Date-Modified = {2013-01-09 17:08:13 -0700},
+	Month = {November},
+	Title = {The {SDAV} Software Frameworks for Visualization and Analysis on Next-Generation Multi-Core and Many-Core Architectures},
+	Year = {2012}}
+
+@inproceedings{EAVL,
+	Abstract = {The coming generation of supercomputing architectures will require fundamental changes in programming models to effectively make use of the expected million to billion way concurrency and thousand-fold reduction in per-core memory. Most current parallel analysis and visualization tools achieve scalability by partitioning the data, either spatially or temporally, and running serial computational kernels on each data partition, using message passing as needed. These techniques lack the necessary level of data parallelism to execute effectively on the underlying hardware. This paper introduces a framework that enables the expression of analysis and visualization algorithms with memory-efficient execution in a hybrid distributed and data parallel manner on both multi-core and many-core processors. We demonstrate results on scientific data using CPUs and GPUs in scalable heterogeneous systems.},
+	Annote = {Provides an overview of EAVL, mult-core, many-core, GPU, exascale thinking system.  EAVL defines operations with the use of functors.  Current operations look limited to basic mapping operations that can look at topological connections.  The really unique thing about EAVL is its data model that can adapt to many topological features and can handle things like edge and face data.  It also seems like it can map pretty easily to these features.},
+	Author = {Jeremy S. Meredith and Robert Sisneros and David Pugmire and Sean Ahern},
+	Booktitle = {Proceedings of the 5th Annual Workshop on General Purpose Processing with Graphics Processing Units (GPGPU-5)},
+	Date-Added = {2013-01-09 17:01:22 -0700},
+	Date-Modified = {2013-01-09 17:01:22 -0700},
+	Doi = {10.1145/2159430.2159432},
+	Month = {March},
+	Note = {{DOI}~10.1145/2159430.2159432},
+	Pages = {11--19},
+	Title = {A Distributed Data-Parallel Framework for Analysis and Visualization Algorithm Development},
+	Year = {2012},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1145/2159430.2159432}}
+
+@inproceedings{Moreland2011:LDAV,
+	Annote = {Description of the Dax toolkit, a framework for building algorithms for GPU computers and, later, exascale computers.},
+	Author = {Kenneth Moreland and Utkarsh Ayachit and Berk Geveci and Kwan-Liu Ma},
+	Booktitle = {Proceedings of the IEEE Symposium on Large-Scale Data Analysis and Visualization},
+	Date-Added = {2013-01-09 16:55:15 -0700},
+	Date-Modified = {2013-01-09 16:55:15 -0700},
+	Doi = {10.1109/LDAV.2011.6092323},
+	Month = {October},
+	Note = {{DOI}~10.1109/LDAV.2011.6092323},
+	Pages = {97--104},
+	Title = {Dax Toolkit: A Proposed Framework for Data Analysis and Visualization at Extreme Scale},
+	Year = {2011},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/LDAV.2011.6092323}}
+
+@inproceedings{Moreland2012:PDAC,
+	Author = {Kenneth Moreland and Brad King and Robert Maynard and Kwan-Liu Ma},
+	Booktitle = {Petascale Data Analytics: Challenges and Opportunities (PDAC-12)},
+	Date-Added = {2013-01-09 16:54:34 -0700},
+	Date-Modified = {2013-01-09 16:54:34 -0700},
+	Month = {November},
+	Title = {Flexible Analysis Software for Emerging Architectures},
+	Year = {2012}}
+
+@techreport{PISTON,
+	Abstract = {Due to the wide variety of current and next-generation supercomputing architectures, the development of highperformance parallel visualization and analysis operators frequently requires re-writing the underlying algorithms for many different platforms. In order to facilitate portability, we have devised a framework for creating such operators that employs the data-parallel programming model. By writing the operators using only data-parallel primitives (such as scans, transforms, stream compactions, etc.), the same code may be compiled to multiple targets using architecture-specific backend implementations of these primitives. Specifically, we make use of and extend NVIDIA's Thrust library, which provides CUDA and OpenMP backends. Using this framework, we have implemented isosurface, cut surface, and threshold operators, and have achieved good parallel performance on two different architectures (multi-core CPUs and NVIDIA GPUs) using the exact same operator code. We have applied these operators to several large, real scientific data sets, and have open-source released a beta version of our code base.},
+	Annote = {A library providing portable implementations of visualization algorithms on multi- and many-core processors.  Uses Thrust to implement algorithms and portability.  Compares marching cubes isosurface generation to existing implementations by NVIDIA and VTK.
+
+I believe this was presented at EGPGV 2012 and when it becomes available in the proceedings this reference should be updated.
+},
+	Author = {Li-Ta Lo and Chris Sewell and James Ahrens},
+	Date-Added = {2013-01-09 16:47:35 -0700},
+	Date-Modified = {2013-01-09 16:47:35 -0700},
+	Institution = {Los Alamos National Laboratory},
+	Number = {LA-UR-12-10227},
+	Title = {{PISTON}: A Portable Cross-Platform Framework for Data-Parallel Visualization Operators},
+	Url = {http://viz.lanl.gov/projects/PISTON.html},
+	Year = {2012},
+	Bdsk-Url-1 = {http://viz.lanl.gov/projects/PISTON.html}}
+
+@book{Blelloch1990,
+	Abstract = {Vector Models for Data-Parallel Computing describes a model of parallelism that extends and formalizes the Data-Parallel model on which the Connection Machine and other supercomputers are based. It presents many algorithms based on the model, ranging from graph algorithms to numerical algorithms, and argues that data-parallel models are not only practical and can be applied to a surprisingly wide variety of problems, they are also well suited for very-high-level languages and lead to a concise and clear description of algorithms and their complexity. Many of the author's ideas have been incorporated into the instruction set and into algorithms currently running on the Connection Machine.
+
+The book includes the definition of a parallel vector machine; an extensive description of the uses of the scan (also called parallel-prefix) operations; the introduction of segmented vector operations; parallel data structures for trees, graphs, and grids; many parallel computational-geometry, graph, numerical and sorting algorithms; techniques for compiling nested parallelism; a compiler for Paralation Lisp; and details on the implementation of the scan operations.},
+	Annote = {Seminal work on using scans and other basic parallel algorithms to build more specific data-parallel algorithms.},
+	Author = {Guy E. Blelloch},
+	Date-Added = {2013-01-09 16:42:04 -0700},
+	Date-Modified = {2013-01-09 16:42:04 -0700},
+	Note = {{ISBN}~0-262-02313-X},
+	Publisher = {MIT Press},
+	Title = {Vector Models for Data-Parallel Computing},
+	Year = {1990}}
+
+@inproceedings{Baker2010,
+	Abstract = {Multicore nodes have become ubiquitous in just a few years. At the same time, writing portable parallel software for multicore nodes is extremely challenging. Widely available programming models such as OpenMP and Pthreads are not useful for devices such as graphics cards, and more flexible programming models such as RapidMind are only available commercially. OpenCL represents the first truly portable standard, but its availability is limited. In the presence of such transition, we have developed a minimal application programming interface (API) for multicore nodes that allows us to write portable parallel linear algebra software that can use any of the aforementioned programming models and any future standard models. We utilize C++ template meta-programming to enable users to write parallel kernels that can be executed on a variety of node types, including Cell, GPUs and multicore CPUs. The support for a parallel node is provided by implementing a Node object, according to the requirements specified by the API. This ability to provide custom support for particular node types gives developers a level of control not allowed by the current slate of proprietary parallel programming APIs. We demonstrate implementations of the API for a simple vector dot-product on sequential CPU, multicore CPU and GPU nodes.},
+	Annote = {This is a paper from Mike Heroux and gang about the multi-core parallel technique using functors.  It makes for a vary portable system parallel system and this is demonstrated on intel threaded building blocks (TBB) and CUDA.},
+	Author = {Christopher G. Baker and Michael A. Heroux and H. Carter Edwards and Alan B. Williams},
+	Booktitle = {Proceedings of the 18th Euromicro International Conference on Parallel, Distributed and Network-Based Processing (PDP)},
+	Date-Added = {2013-01-09 16:40:50 -0700},
+	Date-Modified = {2013-01-09 16:40:50 -0700},
+	Doi = {10.1109/PDP.2010.49},
+	Month = {February},
+	Note = {{DOI}~10.1109/PDP.2010.49},
+	Pages = {601 -- 606},
+	Title = {A Light-weight {API} for Portable Multicore Programming},
+	Url = {http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=5452412},
+	Year = {2010},
+	Bdsk-Url-1 = {http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=5452412},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1109/PDP.2010.49}}
+
+@incollection{Li2008,
+	Annote = {A general paper on optimizing parallel algorithms for use in hybrid MPI+OpenMP/threaded systems.},
+	Author = {Li Chen and Issei Fujishiro},
+	Booktitle = {A Practical Programming Model for the Multi-Core Era},
+	Date-Added = {2013-01-09 16:26:26 -0700},
+	Date-Modified = {2013-01-09 16:26:26 -0700},
+	Doi = {10.1007/978-3-540-69303-1\_10},
+	Note = {{DOI}~10.1007/978-3-540-69303-1\_10},
+	Pages = {112--124},
+	Publisher = {Springer},
+	Title = {Optimization Strategies Using Hybrid {MPI}+{OpenMP} Parallelization for Large-Scale Data Visualization on Earth Simulator},
+	Volume = {4935},
+	Year = {2008},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-540-69303-1%5C_10}}
+
+@book{Sanders2011,
+	Annote = {A book describing how to use CUDA including a lot of practical advice.},
+	Author = {Jason Sanders and Edward Kandrot},
+	Date-Added = {2013-01-09 16:19:52 -0700},
+	Date-Modified = {2013-01-09 16:19:52 -0700},
+	Note = {{ISBN}~978-0-13-138768-3},
+	Publisher = {Addison Wesley},
+	Title = {{CUDA} by Example},
+	Year = {2011}}
+
+@book{TBB,
+	Annote = {The user's guide and reference book for Intel Threading Building Blocks (TBB).  Also contains lots of practical advice on creating efficient application including notes on locking, allocations, cache-lines, and false-sharing.},
+	Author = {James Reinders},
+	Date-Added = {2013-01-09 16:16:39 -0700},
+	Date-Modified = {2013-01-09 16:16:39 -0700},
+	Month = {July},
+	Note = {{ISBN}~978-0-596-51480-8},
+	Publisher = {O'Reilly},
+	Title = {Intel Threading Building Blocks: Outfitting {C++} for Multi-core Processor Parallelism},
+	Year = {2007}}
 
 @techreport{ParaViewTutorial,
 	Annote = {The ParaView tutorial.},

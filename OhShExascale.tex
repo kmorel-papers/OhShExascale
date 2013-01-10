@@ -334,10 +334,100 @@ feasible in most serious applications.
 \subsection{Exascale Programming Challenges}
 
 \noindent
+These problems and many others plague our efforts to achieve scientific
+discovery at exascale.  Simply put, at some point our current approach of
+domain decomposition fails.  Eventually we require too many ghost cells,
+too much communication, or simply have too fine of partitions to be
+efficient.  What this means is that a significant portion of our code needs
+to be redesigned and reimplemented.
+
+In addition to revisiting and reengineering our scientific visualization
+code, we must also cope with new, emerging, and conflicting architectures
+and programming models.  The most blatant challenge is the proliferation of
+compiler and libraries used to program these new multithreaded processors.
+Currently popular technologies include OpenMP, CUDA, OpenCL, Intel
+Threading Building Blocks, and OpenACC with many others also proposed and
+available.  None of these solutions is universally available for all
+hardware and all development environments, nor are any likely to become a
+universal solution.  Thus, if a developer wants broad access to his or her
+application, the code must be ported across significantly different
+programming environments.
+
+Furthermore, different hardware environments have their own idiosyncrasies
+that must be taken into account above any basic compiler porting issues.
+For example, a typical multicore CPU processor has a cache structure
+optimized to provide independent memory access to each core.  This means
+that memory must be divided along cache lines among cores to prevent
+inefficiencies associated with issues such as false sharing\lcite{TBB}.  In
+contrast, a GPU accelerator typically has cores grouped together in blocks
+in which threads group memory fetches and share cache\lcite{Sanders2011}.
+This differing organization of threads requires equally different
+organization of scheduling and memory access within a program.
+
+Eventually, scientific-visualization code must be reengineered using to use
+an efficient shared-memory execution model (or more specifically, allow a
+hybrid shared-distributed execution\lcite{Li2008}).  Although we have been
+successful at implementing efficient, scalable distributed-memory
+algorithms, writing algorithms in this threaded shared-memory environment
+poses many challenges.  It is a common misconception that threaded
+shared-memory programming is easier because it does not require the data
+partitioning and message passing typically required for distributed-memory
+programming.  This, however, is untrue because although distributed-memory
+programming has a larger up-front cost of determining memory management and
+communication, this design process inherently leads us to efficiently
+structured code.  Proper partitioning is as important in shared memory as
+in distributed memory, but threaded programming generally does not provide
+the programatic constraints to simplify and control the partitioning.
+Furthermore, distributed memory models' isolation of memory spaces helps
+prevent read-write collisions and deadlocks whereas any errant memory
+access anywhere in a threaded program can lead to incorrect code that is
+difficult to debug.
+
+\fix{Talk about PGAS?  Need reference.}
+
+Research is already underway to advance the state of the art in scientific
+visualization to finely threaded algorithms.  The most successful
+approaches in terms of ease of programming, portability, and
+maintainability isolate the parts of code responsible for parallel
+scheduling, communication, and critical sections using techniques like
+functors\lcite{Baker2010} and using basic parallel algorithms as building
+blocks\lcite{Blelloch1990}.
 
 \subsection{Emerging Frameworks for Scientific Discovery at Exascale}
 
 \noindent
+DOE is currently addressing many of the programming challenges for exascale
+through funding of various projects addressing different aspects of the
+problem.  The first project, PISTON\lcite{PISTON}, facilitates the
+development of visualization and analysis operators with highly portable
+performance.  As noted previously, there is a wide variety in the hardware
+and development environments for multithreaded environments, and PISTON
+provides mechanisms both to compile across these development environments
+and to run efficiently on many different devices.  It does this using a
+data parallelism model and basic parallel operations much like that
+proposed by Blelloch\scite{Blelloch1990}.
+
+The second project, Dax\lcite{Moreland2011:LDAV}, simplifies the
+development of parallel visualization algorithms.  It does so by allowing
+developers to build algorithms out of worklets, which are functions that
+implement an algorithm's behavior on an element of a mesh or a small local
+neighborhood.  Worklets are designed in serial but can be concurrently
+scheduled on an unlimited number of threads without the complications of
+memory clashes or other race conditions.  Dax also provides many of the
+basic topology structures and common operations on them to better
+facilitate algorithm development.  It also alows algorithms to adapt to
+memory structures of external applications without having to copy to a
+different data structure\lcite{Moreland2012:PDAC}.
+
+The third project, EAVL\lcite{EAVL}, updates the traditional data model for
+modern simulation codes and investigates how the updated model can achieve
+computational and memory efficiency.  EAVL defines more flexible mesh
+structures, which more efficently support many non-traditional types of
+data such as for graphs, mixed data types, high-order fields, and adaptive
+meshes.
+
+See Sewell \etal\scite{Sewell2012} for a more in depth description of these
+and other exascale-related projects.
 
 \section{Recording Results}
 \label{sec:RecordingResults}
