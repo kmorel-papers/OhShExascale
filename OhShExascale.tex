@@ -394,11 +394,8 @@ functors\lcite{Baker2010} and using basic parallel algorithms as building
 blocks\lcite{Blelloch1990}.
 
 \begin{figure*}
-  \framebox[\linewidth]{
-    \vspace*{1.5in}
-    Minard plot of component bandwidths
-    \vspace*{1.5in}
-  }
+  \centering
+  \includegraphics{images/MinardInSitu}
   \caption{Visual depiction of the relative bandwidth of exascale system
     components\lcite{ScientificDiscoveryExascale2011}.}
   \label{fig:IOBandwidths}
@@ -525,6 +522,33 @@ local memory.
 \subsection{Gamut of Coinciding Visualization Solutions}
 
 \noindent
+Given the fact that the bandwidth to results data increases as we move
+closer to the visualization, it is reasonable to ask why we would not
+always choose to embed directly with the simulation.  Although this would
+certainly optimize the bandwidth to the data, moving visualization closer
+to simulation comes at a cost.
+
+The first cost is that of complexity in development.  Creating a
+visualization that can be co-scheduled requires a complex connection
+between the simulation and visualization and generally requires a fully
+featured I/O system to manage it.  The co-scheduled visualization also
+requires add complexity in the job scheduler of the parallel computer.
+Embedding a visualization in a simulation requires a complete integration
+of simulation and visualization codes.  In practical terms, it means that
+both development teams must work together, which tends to involve crossing
+several cultural barriers.
+
+The second cost is that of loss in functionality.  Once we move our
+visualization away from off-line, the data we work with becomes transient.
+A co-scheduled visualization has access only to data that is locally
+available, which may be no more than one snapshot in time.  Once the
+visualization moves on to another snapshot in time, or if the simulation
+passes a snapshot in time before the visualization is ready, that data is
+lost forever.  An embedded visualization has the further constraint that
+whatever operations are to be performed, they have to already be declared
+when the simulation is ready to invoke them.
+
+\fix{Table}
 
 \section{Other Exascale Challenges}
 \label{sec:Other}
