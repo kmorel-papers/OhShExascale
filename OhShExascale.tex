@@ -71,6 +71,9 @@
 \definecolor{darkred}{rgb}{0.5,0,0}
 \definecolor{darkgreen}{rgb}{0,0.5,0}
 
+\definecolor{goodcolor}{rgb}{0.1,0.1,0.8}
+\definecolor{badcolor}{rgb}{0.86,0.08,0.24}
+
 % Cite commands I use to abstract away the different ways to reference an
 % entry in the bibliography (superscripts, numbers, dates, or author
 % abbreviations).  \scite is a short cite that is used immediately after
@@ -82,8 +85,8 @@
 
 \newcommand{\etal}{et al.}
 
-\newcommand{\insitu}{\it in situ\xspace}
-\newcommand{\intransit}{\it in transit\xspace}
+\newcommand{\insitu}{{\it in situ}\xspace}
+\newcommand{\intransit}{{\it in transit}\xspace}
 
 \newcommand*{\keyterm}[1]{\emph{#1}}
 
@@ -106,9 +109,9 @@
 % I hacked up IEEEtran.cls to support a teaser for conference papers.
 \newcommand{\teaser}{
   \centering
-  \includegraphics[width=.3\linewidth]{images/Rocket1}
-  \includegraphics[width=.3\linewidth]{images/Rocket2}
-  \includegraphics[width=.3\linewidth]{images/Rocket3}
+  \includegraphics[height=1.8125in]{images/Rocket1}
+  \includegraphics[height=1.8125in]{images/Rocket2}
+  \includegraphics[height=1.8125in]{images/Rocket3}
   \caption{This 1988 rocket-sled test has nothing to do with exascale
     computing per se, but it makes for an effective metaphor for the
     ``brick wall'' we anticipate our high-performance computing code to
@@ -470,30 +473,47 @@ move analysis closer to the data because there is no point in running a
 simulation in the first place if we do not get the proper analysis out of
 it.
 
+\begin{table*}
+  \centering
+  \caption{List of visualization solution with respect to coupling with a
+    running simulation and their respective properties.}
+  \label{table:InSituSolutions}
+  \begin{tabular}{@{}lccccc@{}}
+    \toprule
+    & Capability & Coupling & Footprint & Transfer & Interactive \\
+    \midrule
+    Tightly Integrated & Low & Tight & \textcolor{goodcolor}{Low} & \textcolor{goodcolor}{None} & No \\
+    Embedded & \textcolor{goodcolor}{High} & Tight & High & Possible memcopy & No \\
+    Hybrid & \textcolor{goodcolor}{High} & Tight & Medium & Subset Hi Speed Transfer & \textcolor{goodcolor}{Yes} \\
+    Co-Scheduled & \textcolor{goodcolor}{High} & \textcolor{goodcolor}{Loose} & Extra Nodes & Hi Speed Transfer & \textcolor{goodcolor}{Yes} \\
+    Off-Line & \textcolor{goodcolor}{High} & \textcolor{goodcolor}{Loose} & \textcolor{goodcolor}{None} & \textcolor{badcolor}{Slow Persistent Storage Cost} & \textcolor{goodcolor}{Yes} \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
 \subsection{Relative Data Bandwidth}
 
 \noindent
 Figure~\ref{fig:IOBandwidths} provides a Minard plot depicting the
 bandwidths of different I/O components by the proportional width of their
-respective \fix{blue} bars.  (See Tufte\scite{Tufte2001} for a longer
-description of Minard plots and their merits.)  Not shown on this plot is
-the rate at which data can be computed.  At $10^{18}$ double precision
-floating point operations per second, the exascale computer on aggregate
-will produce 8~EB per second.  \fix{On this plot that would be almost 4
-  yards across.}  The aggregate bandwidth of the local memory --- that is,
-the speed at which data can be pulled from memory to a local process summed
-over the entire machine --- is 400~PB/s.  This is as fast as we can
-reasonably expect to access data on the system, but it is only available in
-the same job space as the running simulation.  If we were to offload that
-data to another job, say a staging job running on a generous allocation
-10\% of the overall nodes, then we could stream the data to this job at
-10~PB/s, which is pretty fast but only $1/40$ the local access rate.
-Furthermore, one must worry about the limited memory available on the
-staging nodes.  To move the data entirely to disk storage, the bandwidth
-drops way down to 60~TB/s.  This is only 0.015\% the rate at which data can
-be written to local memory and only 0.00075\% the rate at which data can be
-computed.  So, only an extremely small fraction of data can ever hope to be
-captured on disk.
+respective blue bars.  (See Tufte\scite{Tufte2001} for a longer description
+of Minard plots and their merits.)  Not shown on this plot is the rate at
+which data can be computed.  At $10^{18}$ double precision floating point
+operations per second, the exascale computer on aggregate will produce 8~EB
+per second.  On this plot that would be almost 4 yards across.  The
+aggregate bandwidth of the local memory --- that is, the speed at which
+data can be pulled from memory to a local process summed over the entire
+machine --- is 400~PB/s.  This is as fast as we can reasonably expect to
+access data on the system, but it is only available in the same job space
+as the running simulation.  If we were to offload that data to another job,
+say a staging job running on a generous allocation 10\% of the overall
+nodes, then we could stream the data to this job at 10~PB/s, which is
+pretty fast but only $1/40$ the local access rate.  Furthermore, one must
+worry about the limited memory available on the staging nodes.  To move the
+data entirely to disk storage, the bandwidth drops way down to 60~TB/s.
+This is only 0.015\% the rate at which data can be written to local memory
+and only 0.00075\% the rate at which data can be computed.  So, only an
+extremely small fraction of data can ever hope to be captured on disk.
 
 The problem, of course, is that the majority of visualization an analysis
 done today is performed ``off-line'' after the data has been written to
@@ -548,7 +568,59 @@ lost forever.  An embedded visualization has the further constraint that
 whatever operations are to be performed, they have to already be declared
 when the simulation is ready to invoke them.
 
-\fix{Table}
+Consequently, there is no simple single solution that can address all of
+our current or projected visualization coupling needs.  Our group has
+experimented with an entire spectrum of solutions and found each one to
+have its own advantages and disadvantes as summarized in
+Table~\ref{table:InSituSolutions}.
+
+On one end of the spectrum we can have a very tightly integrated
+visualization component built from the ground up for a specific need in a
+simulation.  Such a targeted solution can have a very small footprint as it
+can make specialized optimizations for the particular data types and
+representations used.  Such a solution can be perfect for an analysis team
+that wants a specific, targeted, and fairly simple functionality.  However,
+in our experience a successful integration usually begets further requests
+for new features, which would be readily available in a more
+general-purpose library.  Hence, the tightly integrated approach often
+spirals into a large duplication of efforts between projects, and we try to
+avoid it.
+
+A preferred method, from the visualization software developer's standpoint,
+is to embed visualization into a simulation with a general purpose
+library\lcite{Fabian2011,VisItLibsim}.  Once integrated, the simulation now
+has access to all the visualization capabilities of the visualization
+library as well as possible integration with already familiar visualization
+tools.  The disadvantage of such an approach is that the footprint of such
+a library tends to be high, especially when dynamic selection of
+visualization capabilities is supported.  Also, it means that any
+visualization algorithm used must scale to the same job size as the
+simulation it is embedded in, which can be challenging\lcite{Fabian2012}
+although also useful outside the simulation.
+
+Co-scheduled visualization (also often called \intransit visualization)
+alleviates some of the problems of embedded
+\insitu\lcite{Moreland2011:PDAC,Biddiscombe2012,Klasky2011}.  The coupling
+between visualization and simulation can be simplfied by connecting them
+indirectly through an I/O layer although general-purpose I/O layers are
+still in development.  Also, the co-scheduled visualization job can provide
+an entire suite of visualization tools without directly adding to the
+footprint of the simulation although it does require a sufficiently large
+separate allocation of nodes on the same computer or nearby.  A
+disadvantage of the co-scheduled method is that an overhead is incurred for
+transferring the data from simulation job to visualization job, but once
+that is done the two processes can execute asynchronously, further
+eliminating some of the overhead in the simulation.
+
+In some circumstances we have found a hybrid method between embedded and
+co-scheduled visualization is useful.  In this method, a visualization
+component is directly embedded in the simulation, but visualization can
+also connect and transfer data to a separate and smaller visualization
+job\lcite{Moreland2011:PDAC}.  The intention here is to provide a tightly
+coupled and highly scalable algorithm directly in the simulation code that
+can quickly extract salient information and pass this reduced data to
+another process.  This second process can then be used to server
+interactive visualization to a user without blocking the large simulation.
 
 \section{Other Exascale Challenges}
 \label{sec:Other}

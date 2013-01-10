@@ -2,12 +2,89 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for kmorel at 2013-01-09 17:48:39 -0700 
+%% Created for kmorel at 2013-01-09 22:01:05 -0700 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Biddiscombe2012,
+	Abstract = {Interfacing a GUI driven visualization/analysis package to an HPC application enables a supercomputer to be used as an interactive instrument. We achieve this by replacing the IO layer in the HDF5 library with a custom driver which transfers data in parallel between simulation and analysis. Our implementation using ParaView as the interface, allows a flexible combination of parallel simulation, concurrent parallel analysis, and GUI client, either on the same or separate machines. Each MPI job may use different core counts or hardware configurations, allowing fine tuning of the amount of resources dedicated to each part of the workload. By making use of a distributed shared memory file, one may read data from the simulation, modify it using ParaView pipelines, write it back, to be reused by the simulation (or vice versa). This allows not only simple parameter changes, but complete remeshing of grids, or operations involving regeneration of field values over the entire domain. To avoid the problem of manually customizing the GUI for each application that is to be steered, we make use of XML templates that describe outputs from the simulation (and inputs back to it) to automatically generate GUI controls for manipulation of the simulation.},
+	Annote = {An example of In Situ/In Transit visualization that uses the XDMF/HDF5 transport mechanism to connect ParaView to a running SPH simulation.},
+	Author = {John Biddiscombe and Jerome Soumagne and Guillaume Oger and David Guibert and Jean-Guillaume Piccinali},
+	Date-Added = {2013-01-09 21:59:22 -0700},
+	Date-Modified = {2013-01-09 21:59:22 -0700},
+	Doi = {10.1109/TVCG.2012.63},
+	Journal = {IEEE Transactions on Visualization and Computer Graphics},
+	Month = {June},
+	Note = {{DOI}~10.1109/TVCG.2012.63},
+	Number = {6},
+	Pages = {852--864},
+	Title = {Parallel Computational Steering for HPC Applications Using HDF5 Files in Distributed Shared Memory},
+	Volume = {18},
+	Year = {2012},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/TVCG.2012.63}}
+
+@inproceedings{Moreland2011:PDAC,
+	Annote = {A summary of several projects using the in transit method of in situ visualization.},
+	Author = {Kenneth Moreland and Ron Oldfield and Pat Marion and Sebastien Jourdain and Norbert Podhorszki and Venkatram Vishwanath and Nathan Fabian and Ciprian Docan and Manish Parashar and Mark Hereld and Michael E. Papka and Scott Klasky},
+	Booktitle = {Petascale Data Analytics: Challenges and Opportunities (PDAC-11)},
+	Date-Added = {2013-01-09 21:54:51 -0700},
+	Date-Modified = {2013-01-09 21:54:51 -0700},
+	Month = {November},
+	Title = {Examples of {\it In Transit} Visualization},
+	Year = {2011}}
+
+@inproceedings{Klasky2011,
+	Annote = {A petascale-era paper on in situ visualization and data processing.  Actually mostly focused on in transit visualization using the ADIOS IO transport mechanism to couple codes together.},
+	Author = {Scott Klasky and others},
+	Booktitle = {Proceedings of SciDAC 2011},
+	Date-Added = {2013-01-09 21:54:46 -0700},
+	Date-Modified = {2013-01-09 21:54:46 -0700},
+	Month = {July},
+	Title = {In Situ Data Processing for Extreme Scale Computing},
+	Year = {2011}}
+
+@techreport{VisItLibsim,
+	Annote = {Technical manual for integrating VisIt's libsim into simulations for in situ analysis.  Also discusses creating VisIt readers.},
+	Author = {Brad Whitlock},
+	Date-Added = {2013-01-09 21:48:19 -0700},
+	Date-Modified = {2013-01-09 21:48:19 -0700},
+	Institution = {Lawrence Livermore National Laboratory},
+	Month = {July},
+	Number = {LLNL-SM-446033},
+	Title = {Getting Data Into {VisIt}},
+	Year = {2010}}
+
+@inproceedings{Fabian2012,
+	Abstract = {We explore the problem of characterizing fragments using ParaView in situ with an explosion simulation. By running in situ we can see a much higher temporal view of the data as well as potentially compress the output to only those statistics about fragments we care about. However, the fragment finding must be able to scale as well as the simulation. In order to achieve the necessary scales, we borrow operations the simulation is already doing and take advantage of them within ParaView, demonstrating the resulting improvement in scaling performance.},
+	Annote = {Description of running the fragment detection in situ with catalyst.},
+	Author = {Nathan Fabian},
+	Booktitle = {Proceedings of the IEEE Symposium on Large-Scale Data Analysis and Visualization},
+	Date-Added = {2013-01-09 21:44:39 -0700},
+	Date-Modified = {2013-01-09 21:44:39 -0700},
+	Doi = {10.1109/LDAV.2012.6378983},
+	Month = {October},
+	Note = {{DOI}~10.1109/LDAV.2012.6378983},
+	Pages = {105--108},
+	Title = {{\it In situ} Fragment Detection at Scale},
+	Year = {2012},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/LDAV.2012.6378983}}
+
+@inproceedings{Fabian2011,
+	Annote = {Document describing the ParaView Coprocessing library that allows you to use ParaView parallel services in situ with simulations.},
+	Author = {Nathan Fabian and Kenneth Moreland and David Thompson and Andrew C. Bauer and Pat Marion and Berk Geveci and Michel Rasquin and Kenneth E. Jansen},
+	Booktitle = {Proceedings of the IEEE Symposium on Large-Scale Data Analysis and Visualization},
+	Date-Added = {2013-01-09 21:44:36 -0700},
+	Date-Modified = {2013-01-09 21:44:36 -0700},
+	Doi = {10.1109/LDAV.2011.6092322},
+	Month = {October},
+	Note = {{DOI}~10.1109/LDAV.2011.6092322},
+	Pages = {89--96},
+	Title = {The {ParaView} Coprocessing Library: A Scalable, General Purpose In Situ Visualization Library},
+	Year = {2011},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/LDAV.2011.6092322}}
 
 @book{Tufte2001,
 	Annote = {The bible of visual display.  A very colorful and pretty bible.},
