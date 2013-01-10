@@ -393,6 +393,17 @@ scheduling, communication, and critical sections using techniques like
 functors\lcite{Baker2010} and using basic parallel algorithms as building
 blocks\lcite{Blelloch1990}.
 
+\begin{figure*}
+  \framebox[\linewidth]{
+    \vspace*{1.5in}
+    Minard plot of component bandwidths
+    \vspace*{1.5in}
+  }
+  \caption{Visual depiction of the relative bandwidth of exascale system
+    components\lcite{ScientificDiscoveryExascale2011}.}
+  \label{fig:IOBandwidths}
+\end{figure*}
+
 \subsection{Emerging Frameworks for Scientific Discovery at Exascale}
 
 \noindent
@@ -433,10 +444,83 @@ and other exascale-related projects.
 \label{sec:RecordingResults}
 
 \noindent
+Let us consider a different aspect of the exascale machine.  Consider the
+change in the bandwidth to and from the storage system (bottom row of
+Table~\ref{table:PetascaleVsExascale}).  Although the peak performance of
+the computer should rise by three orders of magnitude, the bandwidth to the
+storage only increases by one order of magnitude.  The consequence is that
+a smaller fraction of results can be recorded when a simulation is run.
+
+This is not a new trend in supercomputing.  For the last 20 years one could
+expect each generation of supercomputer to have more floating point
+operations per second and more concurrency, but comparitively less storage
+and I/O bandwidth.  That is not to say that the storage systems have not
+been improving; they have just been improving at a much slower rate than
+the rest of the system.  As an example, two generations ago ASCI Purple, a
+100 teraFLOP machine, had a peak bandwidth of 140~GB/s to its parallel
+storage.  One generation ago, JaguarPF, a petaFLOP machine, had a peak
+bandwidth of 200~GB/s to its parallel storage, which is not a dramatic
+improvement.  To exacerbate the issue, few real applications are capable of
+achieving anywhere near peak performance, and all applications must
+sometimes deal with file system contention with jobs both on and off the
+computer.
+
+Thus, as simulations are scaled up on larger machines and perform
+calculations at faster rates, there comes a time when it is impractical to
+write results at a fast enough rate to do a proper analysis.  When this
+time comes, we must become smarter about what gets written out and we must
+move analysis closer to the data because there is no point in running a
+simulation in the first place if we do not get the proper analysis out of
+it.
 
 \subsection{Relative Data Bandwidth}
 
 \noindent
+Figure~\ref{fig:IOBandwidths} provides a Minard plot depicting the
+bandwidths of different I/O components by the proportional width of their
+respective \fix{blue} bars.  (See Tufte\scite{Tufte2001} for a longer
+description of Minard plots and their merits.)  Not shown on this plot is
+the rate at which data can be computed.  At $10^{18}$ double precision
+floating point operations per second, the exascale computer on aggregate
+will produce 8~EB per second.  \fix{On this plot that would be almost 4
+  yards across.}  The aggregate bandwidth of the local memory --- that is,
+the speed at which data can be pulled from memory to a local process summed
+over the entire machine --- is 400~PB/s.  This is as fast as we can
+reasonably expect to access data on the system, but it is only available in
+the same job space as the running simulation.  If we were to offload that
+data to another job, say a staging job running on a generous allocation
+10\% of the overall nodes, then we could stream the data to this job at
+10~PB/s, which is pretty fast but only $1/40$ the local access rate.
+Furthermore, one must worry about the limited memory available on the
+staging nodes.  To move the data entirely to disk storage, the bandwidth
+drops way down to 60~TB/s.  This is only 0.015\% the rate at which data can
+be written to local memory and only 0.00075\% the rate at which data can be
+computed.  So, only an extremely small fraction of data can ever hope to be
+captured on disk.
+
+The problem, of course, is that the majority of visualization an analysis
+done today is performed ``off-line'' after the data has been written to
+disk.  Off-line visualization offers many advantages that make it the
+easiest way to perform visualization.  First, it makes the interface
+between simulation and visualization simple.  The visualization needs only
+to understand the format used when the simulation write the data to disk.
+Second, it makes scheduling and performing the visualization, particularly
+when done by a human, much easier.  The visualization job can be scheduled
+completely independently of the simulation and at a time most convienient
+to the user.  Third, the results data is placed in persistent storage, so
+any analysis not performed immediately can be done at a later time if they
+are later deemed necessary.
+
+None of these advantages mean anything, however, if it is not possible to
+get the necessary data to the storage system.  In the case where there is
+not sufficient bandwidth to store raw results from the simulation, then the
+visualization must be moved ``closer'' to the visualization (upwards in the
+Minard plot of Figure~\ref{fig:IOBandwidths}).  You could co-schedule a
+visualization job at the same time as the simulation job and set up a
+transfer mechanism over a high speed network.  If that still is not enough
+bandwidth, you could embed the visualization directly in the simulation so
+that the visualization has direct access to the data while it is still in
+local memory.
 
 \subsection{Gamut of Coinciding Visualization Solutions}
 
