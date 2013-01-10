@@ -155,7 +155,7 @@ hardware structure and programming models to which software must adapt.
 These grave predictions come from multiple
 workshops\lcite{ExascaleArchitecturesReport,ExascaleRoadMap,DARPAExascaleStudy}
 where experts convened to discuss the roadmap to building exascale
-computers (that is, computers capabile of performing $10^{18}$ floating
+computers (that is, computers capable of performing $10^{18}$ floating
 point operations per second).  Table~\ref{table:PetascaleVsExascale} gives
 a summary comparison between an existing petaFLOP computer and the expected
 system performance of a future computer capable of an exaFLOP.  Note that
@@ -170,7 +170,7 @@ If all the components of supercomputers were to be scaled uniformly, then
 the ``Factor Change'' column in Table~\ref{table:PetascaleVsExascale} would
 have uniform values.  However, the factor of change varies wildly from very
 small changes to five orders of magnitude.  The main cause for most of this
-variability comes from comprimises made to achieve the desired system peak
+variability comes from compromises made to achieve the desired system peak
 (the first column of Table~\ref{table:PetascaleVsExascale}) in the
 constraints of a limited power budget (the second column of
 Table~\ref{table:PetascaleVsExascale}).  DOE has established a power budget
@@ -273,7 +273,7 @@ important emerging features in high-performance computing, and it is thus
 doomed to break down unless major restructuring efforts are enacted.
 
 To understand why our parallel production applications will fail to scale,
-let us consider a simple and artificial but realistic and representitive
+let us consider a simple and artificial but realistic and representative
 example of performing scientific visualization on a regular grid of cells.
 For a capability run on the petascale machine represented in
 Table~\ref{table:PetascaleVsExascale} we could expect a grid of 1 trillion
@@ -294,7 +294,7 @@ process.  Replicating this data 200 thousand times on the petascale machine
 yields 4~TB, which is a reasonable at less than 2\% of the overall memory
 in the system.  However, replicating this data 100 billion times on the
 exascale machine yields 2~EB, well over the amount of memory available on
-the entire machine (and, incidently, all of its storage).  Thus, we cannot
+the entire machine (and, incidentally, all of its storage).  Thus, we cannot
 even start our application on the exascale machine, and that is before we
 even load any data.
 
@@ -305,7 +305,7 @@ as most modern high-performance parallel code, gets around the limits of
 parallel efficiency proposed by Amdahl\lcite{Amdahl1967} by scaling up the
 problem size along with the concurrency\lcite{Gustafson1988}.  By
 considering a scaled speedup, we can allow the problem size to be an
-increasing functionof the number of processes\lcite{Quinn2004}.  However,
+increasing function of the number of processes\lcite{Quinn2004}.  However,
 limiting the growth of memory limits the scale to which we can grow
 problems.
 
@@ -380,7 +380,7 @@ programming has a larger up-front cost of determining memory management and
 communication, this design process inherently leads us to efficiently
 structured code.  Proper partitioning is as important in shared memory as
 in distributed memory, but threaded programming generally does not provide
-the programatic constraints to simplify and control the partitioning.
+the programmatic constraints to simplify and control the partitioning.
 Furthermore, distributed memory models' isolation of memory spaces helps
 prevent read-write collisions and deadlocks whereas any errant memory
 access anywhere in a threaded program can lead to incorrect code that is
@@ -426,14 +426,14 @@ neighborhood.  Worklets are designed in serial but can be concurrently
 scheduled on an unlimited number of threads without the complications of
 memory clashes or other race conditions.  Dax also provides many of the
 basic topology structures and common operations on them to better
-facilitate algorithm development.  It also alows algorithms to adapt to
+facilitate algorithm development.  It also allows algorithms to adapt to
 memory structures of external applications without having to copy to a
 different data structure\lcite{Moreland2012:PDAC}.
 
 The third project, EAVL\lcite{EAVL}, updates the traditional data model for
 modern simulation codes and investigates how the updated model can achieve
 computational and memory efficiency.  EAVL defines more flexible mesh
-structures, which more efficently support many non-traditional types of
+structures, which more efficiently support many non-traditional types of
 data such as for graphs, mixed data types, high-order fields, and adaptive
 meshes.
 
@@ -441,7 +441,7 @@ See Sewell \etal\scite{Sewell2012} for a more in depth description of these
 and other exascale-related projects.  The good news from these projects is
 that they provide good introductory steps to implementing high-performance
 visualization at exascale.  If successful, these changes should produce few
-negative or even noticible changes to the abilities of production
+negative or even noticeable changes to the abilities of production
 visualization software.
 
 \section{Recording Results}
@@ -457,7 +457,7 @@ a smaller fraction of results can be recorded when a simulation is run.
 
 This is not a new trend in supercomputing.  For the last 20 years one could
 expect each generation of supercomputer to have more floating point
-operations per second and more concurrency, but comparitively less storage
+operations per second and more concurrency, but comparatively less storage
 and I/O bandwidth.  That is not to say that the storage systems have not
 been improving; they have just been improving at a much slower rate than
 the rest of the system.  As an example, two generations ago ASCI Purple, a
@@ -527,7 +527,7 @@ between simulation and visualization simple.  The visualization needs only
 to understand the format used when the simulation write the data to disk.
 Second, it makes scheduling and performing the visualization, particularly
 when done by a human, much easier.  The visualization job can be scheduled
-completely independently of the simulation and at a time most convienient
+completely independently of the simulation and at a time most convenient
 to the user.  Third, the results data is placed in persistent storage, so
 any analysis not performed immediately can be done at a later time if they
 are later deemed necessary.
@@ -575,7 +575,7 @@ when the simulation is ready to invoke them.
 Consequently, there is no simple single solution that can address all of
 our current or projected visualization coupling needs.  Our group has
 experimented with an entire spectrum of solutions and found each one to
-have its own advantages and disadvantes as summarized in
+have its own advantages and disadvantages as summarized in
 Table~\ref{table:InSituSolutions}.
 
 On one end of the spectrum we can have a very tightly integrated
@@ -605,7 +605,7 @@ although also useful outside the simulation.
 Co-scheduled visualization (also often called \intransit visualization)
 alleviates some of the problems of embedded
 \insitu\lcite{Moreland2011:PDAC,Biddiscombe2012,Klasky2011}.  The coupling
-between visualization and simulation can be simplfied by connecting them
+between visualization and simulation can be simplified by connecting them
 indirectly through an I/O layer although general-purpose I/O layers are
 still in development.  Also, the co-scheduled visualization job can provide
 an entire suite of visualization tools without directly adding to the
@@ -642,7 +642,7 @@ other important issues.
 Although our production scientific-visualization tools are designed to
 provide reliable operation, resilience has not been the primary concern for
 their development.  Should a problem occur during visualization, such as a
-hardware failure, that causes a catastrophic failure, it is realitively
+hardware failure, that causes a catastrophic failure, it is relatively
 little consequence to simply restarting the visualization and reloading the
 data when running in off-line mode.  However things can change dramatically
 for exascale.  When running \insitu at the exascale, it is vital that the
@@ -650,7 +650,7 @@ visualization components be robust.  It is not looked upon favorably when
 visualization brings down a large simulation job.
 
 At exascale we expect failures to occur more frequently as well.  The
-exascale computer comprises significantly more hardware componts.  More
+exascale computer comprises significantly more hardware components.  More
 components means a greater chance that one will fail, which means that the
 mean time to failure goes down.  When the mean time to failure drops low
 enough, even independent visualization jobs need to consider resiliency.
@@ -683,7 +683,7 @@ compression, but for lossy compression it is very important to be able to
 both constrain and characterize the inaccuracy introduced by lossy
 compression.
 
-Another apprpoach to reducing the amount of data returned is by extracting
+Another approach to reducing the amount of data returned is by extracting
 exactly the information desired.  One direct method of extraction is to
 perform a feature characterization and write out properties of features.
 The challenge of this approach is that feature characterization is very
@@ -713,7 +713,7 @@ As the computational power of supercomputers increases, we expect greater
 efforts to be made in tracking uncertainty and quantifying the uncertainty
 in simulations.  However, this uncertainty quantification is of little use
 if the analysis can provide no insight into the envelope of possible
-values.  Visualization systems need to incoporate uncertainty in their
+values.  Visualization systems need to incorporate uncertainty in their
 visual representation of data\lcite{Potter2012}.
 
 \section{Final Remarks}
