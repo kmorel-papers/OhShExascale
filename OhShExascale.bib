@@ -2,12 +2,26 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for kmorel at 2013-01-09 23:17:43 -0700 
+%% Created for kmorel at 2013-01-09 23:57:12 -0700 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Balaji2011,
+	Abstract = {Petascale parallel computers with more than a million processing cores are expected to be available in a couple of years. Although MPI is the dominant programming inter- face today for large-scale systems that at the highest end already have close to 300,000 processors, a challenging question to both researchers and users is whether MPI will scale to processor and core counts in the millions. In this paper, we examine the issue of scalability of MPI to very large systems. We first examine the MPI specification itself and discuss areas with scalability concerns and how they can be overcome. We then investigate issues that an MPI implementation must address in order to be scalable. To illustrate the issues, we ran a number of simple experiments to measure MPI memory consumption at scale up to 131,072 processes, or 80%, of the IBM Blue Gene/P system at Argonne National Laboratory. Based on the results, we identified nonscalable aspects of the MPI implementation and found ways to tune it to reduce its memory footprint. We also briefly discuss issues in application scalability to large process counts and features of MPI that enable the use of other techniques to alleviate scalability limitations in applications.},
+	Annote = {Research on improving the scalability of of MPI (particularly collective operations) to very large core counts.  At millions of cores, it is still shy of exascale, but a valiant effort.},
+	Author = {Pavan Balaji and Darius Buntinas and David Goodell and William Gropp and Torsten Hoefler and Sameer Kumar and Ewing Lusk and Rajeev Thakur and Jesper Larsson Tr\"{a}ff},
+	Date-Added = {2013-01-09 23:51:25 -0700},
+	Date-Modified = {2013-01-09 23:56:23 -0700},
+	Journal = {Parallel Processing Letters},
+	Month = {March},
+	Number = {1},
+	Pages = {45--60},
+	Title = {MPI on Millions of Cores},
+	Volume = {21},
+	Year = {2011}}
 
 @inproceedings{Potter2012,
 	Abstract = {Quantifying uncertainty is an increasingly important topic across many domains. The uncertainties present in data come with many diverse representations having originated from a wide variety of domains. Communicating these uncertainties is a task often left to visualization without clear connection between the quantification and visualization. In this paper, we first identify frequently occurring types of uncertainty. Second, we connect those uncertainty representations to ones commonly used in visualization. We then look at various approaches to visualizing this uncertainty by partitioning the work based on the dimensionality of the data and the dimensionality of the uncertainty. We also discuss note- worthy exceptions to our taxonomy along with future research directions for the uncertainty visualization community.},

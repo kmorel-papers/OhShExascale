@@ -160,9 +160,9 @@ point operations per second).  Table~\ref{table:PetascaleVsExascale} gives
 a summary comparison between an existing petaFLOP computer and the expected
 system performance of a future computer capable of an exaFLOP.  Note that
 there is uncertainty in what type of computer architecture will be used to
-achieve and exaFLOP (and it is possible different architectures may be used
+achieve an exaFLOP (and it is possible different architectures may be used
 in different instances).  To compensate for this uncertainty, experts use
-the term of design ``swim lanes'' that capture these different approaches.
+the term design ``swim lanes'' that capture these different approaches.
 Two likely swim lanes are captured in
 Table~\ref{table:PetascaleVsExascale}.
 
@@ -171,7 +171,7 @@ the ``Factor Change'' column in Table~\ref{table:PetascaleVsExascale} would
 have uniform values.  However, the factor of change varies wildly from very
 small changes to five orders of magnitude.  The main cause for most of this
 variability comes from compromises made to achieve the desired system peak
-(the first column of Table~\ref{table:PetascaleVsExascale}) in the
+(the first column of Table~\ref{table:PetascaleVsExascale}) with the
 constraints of a limited power budget (the second column of
 Table~\ref{table:PetascaleVsExascale}).  DOE has established a power budget
 for the exascale machine at 20~MW\lcite{ExascaleArchitecturesReport}.  The
@@ -245,7 +245,7 @@ scaling of the number of transistors (so far), this scaling is no longer
 contributing to the faster operation of processing
 cores\lcite{ExascaleRoadMap}.  Instead, increased computing power is
 achieved by adding more cores to a processor.  Given this fixed calculation
-rate per core, we can predict that we will need roughly a million cores to
+rate per core, we can predict that we will need roughly a billion cores to
 sustain a rate of $10^{18}$ floating point operations per second.
 
 Of course, the change in Moore's law only accounts for an increase of three
@@ -291,7 +291,7 @@ copy of the machine instructions to be executed.  A library of
 general-purpose scientific visualization algorithms could be expected to
 run at least 20~MB, and these 20~MB would have to be replicated on each
 process.  Replicating this data 200 thousand times on the petascale machine
-yields 4~TB, which is a reasonable at less than 2\% of the overall memory
+yields 4~TB, which is reasonable at less than 2\% of the overall memory
 in the system.  However, replicating this data 100 billion times on the
 exascale machine yields 2~EB, well over the amount of memory available on
 the entire machine (and, incidentally, all of its storage).  Thus, we cannot
@@ -299,9 +299,9 @@ even start our application on the exascale machine, and that is before we
 even load any data.
 
 But let us say we get around that problem, which is an active area of
-research\fix{Cite exascale project.}.  Another problem that we run into is
-the breakdown of Gustafson's law.  Scientific visualization code, as well
-as most modern high-performance parallel code, gets around the limits of
+research\lcite{Balaji2011}.  Another problem that we run into is the
+breakdown of Gustafson's law.  Scientific visualization code, as well as
+most modern high-performance parallel code, gets around the limits of
 parallel efficiency proposed by Amdahl\lcite{Amdahl1967} by scaling up the
 problem size along with the concurrency\lcite{Gustafson1988}.  By
 considering a scaled speedup, we can allow the problem size to be an
@@ -316,8 +316,8 @@ broken into partitions of 5 million cells for each thread.  Experience
 shows 5 million cells per thread to be an efficient amount to drive a
 visualization pipeline thread\lcite{ParaViewTutorial}.  In contrast, the
 equivalent exascale mesh of 100 trillion cells would be divided into
-partitions of 1000 cells, a ridiculously small and inefficient amount of
-the overhead of a parallel program.
+partitions of 1000 cells, a ridiculously small and inefficient amount to
+overcome the overhead of a parallel program.
 
 But even ignoring this problem, others abound.  Consider the issue of
 adding ghost cells (or sometimes called halo cells) to our partitions.
@@ -385,8 +385,6 @@ Furthermore, distributed memory models' isolation of memory spaces helps
 prevent read-write collisions and deadlocks whereas any errant memory
 access anywhere in a threaded program can lead to incorrect code that is
 difficult to debug.
-
-\fix{Talk about PGAS?  Need reference.}
 
 Research is already underway to advance the state of the art in scientific
 visualization to finely threaded algorithms.  The most successful
@@ -479,7 +477,7 @@ it.
 
 \begin{table*}
   \centering
-  \caption{List of visualization solution with respect to coupling with a
+  \caption{List of visualization solutions with respect to coupling with a
     running simulation and their respective properties.}
   \label{table:InSituSolutions}
   \begin{tabular}{@{}lccccc@{}}
@@ -510,25 +508,25 @@ data can be pulled from memory to a local process summed over the entire
 machine --- is 400~PB/s.  This is as fast as we can reasonably expect to
 access data on the system, but it is only available in the same job space
 as the running simulation.  If we were to offload that data to another job,
-say a staging job running on a generous allocation 10\% of the overall
+say a staging job running on a generous allocation of 10\% of the overall
 nodes, then we could stream the data to this job at 10~PB/s, which is
-pretty fast but only $1/40$ the local access rate.  Furthermore, one must
+pretty fast but only 2.5\% the local access rate.  Furthermore, one must
 worry about the limited memory available on the staging nodes.  To move the
 data entirely to disk storage, the bandwidth drops way down to 60~TB/s.
 This is only 0.015\% the rate at which data can be written to local memory
 and only 0.00075\% the rate at which data can be computed.  So, only an
 extremely small fraction of data can ever hope to be captured on disk.
 
-The problem, of course, is that the majority of visualization an analysis
+The problem, of course, is that the majority of visualization and analysis
 done today is performed ``off-line'' after the data has been written to
 disk.  Off-line visualization offers many advantages that make it the
 easiest way to perform visualization.  First, it makes the interface
 between simulation and visualization simple.  The visualization needs only
-to understand the format used when the simulation write the data to disk.
+to understand the format used when the simulation writes the data to disk.
 Second, it makes scheduling and performing the visualization, particularly
 when done by a human, much easier.  The visualization job can be scheduled
 completely independently of the simulation and at a time most convenient
-to the user.  Third, the results data is placed in persistent storage, so
+to the user.  Third, the results data are placed in persistent storage, so
 any analysis not performed immediately can be done at a later time if they
 are later deemed necessary.
 
@@ -556,7 +554,7 @@ The first cost is that of complexity in development.  Creating a
 visualization that can be co-scheduled requires a complex connection
 between the simulation and visualization and generally requires a fully
 featured I/O system to manage it.  The co-scheduled visualization also
-requires add complexity in the job scheduler of the parallel computer.
+requires added complexity in the job scheduler of the parallel computer.
 Embedding a visualization in a simulation requires a complete integration
 of simulation and visualization codes.  In practical terms, it means that
 both development teams must work together, which tends to involve crossing
@@ -591,9 +589,9 @@ spirals into a large duplication of efforts between projects, and we try to
 avoid it.
 
 A preferred method, from the visualization software developer's standpoint,
-is to embed visualization into a simulation with a general purpose
-library\lcite{Fabian2011,VisItLibsim}.  Once integrated, the simulation now
-has access to all the visualization capabilities of the visualization
+is to embed a general-purpose visualization library into a
+simulation\lcite{Fabian2011,VisItLibsim}.  Once integrated, the simulation
+now has access to all the visualization capabilities of the visualization
 library as well as possible integration with already familiar visualization
 tools.  The disadvantage of such an approach is that the footprint of such
 a library tends to be high, especially when dynamic selection of
@@ -618,12 +616,12 @@ eliminating some of the overhead in the simulation.
 
 In some circumstances we have found a hybrid method between embedded and
 co-scheduled visualization is useful.  In this method, a visualization
-component is directly embedded in the simulation, but visualization can
+component is directly embedded in the simulation, but the visualization can
 also connect and transfer data to a separate and smaller visualization
 job\lcite{Moreland2011:PDAC}.  The intention here is to provide a tightly
 coupled and highly scalable algorithm directly in the simulation code that
 can quickly extract salient information and pass this reduced data to
-another process.  This second process can then be used to server
+another process.  This second process can then be used to serve an
 interactive visualization to a user without blocking the large simulation.
 
 \section{Other Exascale Challenges}
@@ -642,12 +640,12 @@ other important issues.
 Although our production scientific-visualization tools are designed to
 provide reliable operation, resilience has not been the primary concern for
 their development.  Should a problem occur during visualization, such as a
-hardware failure, that causes a catastrophic failure, it is relatively
-little consequence to simply restarting the visualization and reloading the
-data when running in off-line mode.  However things can change dramatically
-for exascale.  When running \insitu at the exascale, it is vital that the
-visualization components be robust.  It is not looked upon favorably when
-visualization brings down a large simulation job.
+hardware failure, that causes a catastrophic interruption, it is of
+relatively little consequence to simply restart the visualization and
+reload the data when running in off-line mode.  However, things can change
+dramatically for exascale.  When running \insitu at the exascale, it is
+vital that the visualization components be robust.  It is not looked upon
+favorably when visualization brings down a large simulation job.
 
 At exascale we expect failures to occur more frequently as well.  The
 exascale computer comprises significantly more hardware components.  More
@@ -664,8 +662,8 @@ an effort to reduce the power consumed.
 
 Ultimately, the operation of an exascale computer may be less deterministic
 than what we currently expect of a petascale computer.  Not only must our
-code be able to operate under uncertainty, but must be able to characterize
-the uncertainty in the data that it produces.
+code be able to operate under uncertainty, but it must also be able to
+characterize the uncertainty in the data that it produces.
 
 \subsection{Compression and Extraction}
 
@@ -676,19 +674,19 @@ better use of the bandwidth that we do have available by providing more
 information with less data.  One straightforward way to do this is to
 compress the data.  Data compression has a long and fruitful history, but
 scientific analysis and visualization provides several new challenges.
-Scientific data tends to be of floating point data with well defined but
+Scientific data tends to be of floating point numbers with well defined but
 possibly complicated and irregular structure, which is different from most
-other fields.  Furthermore, we could benefit from both lossless and lossy
-compression, but for lossy compression it is very important to be able to
-both constrain and characterize the inaccuracy introduced by lossy
-compression.
+other uses of compression.  Furthermore, we could benefit from both
+lossless and lossy compression, but for lossy compression it is very
+important to be able to both constrain and characterize the inaccuracy
+introduced by lossy compression.
 
 Another approach to reducing the amount of data returned is by extracting
 exactly the information desired.  One direct method of extraction is to
 perform a feature characterization and write out properties of features.
 The challenge of this approach is that feature characterization is very
 specific to a particular scientific domain and analysis.  Furthermore,
-feature are often difficult to specify let alone extract, and often feature
+features are often difficult to specify let alone extract, and often feature
 identification is an expensive operation.
 
 \subsection{Provenance}
